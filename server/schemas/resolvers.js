@@ -5,7 +5,7 @@ const { User, Book } = require('../models');
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('books');
+      return User.find().populate('savedbooks');
     },
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate('books');

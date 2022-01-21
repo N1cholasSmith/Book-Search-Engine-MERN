@@ -1,12 +1,11 @@
 const express = require('express');
-// adding Apollo to the server
 const { ApolloServer } = require('apollo-server-express')
 const path = require('path');
-const db = require('./config/connection');
-const routes = require('./routes');
 
 // -----------------------------------------------------------------
 const { typeDefs, resolvers } = require('./schemas');
+const { authMiddleware } = require('./utils/auth')
+
 const db = require('./config/connection');
 
 const app = express();
@@ -14,8 +13,11 @@ const PORT = process.env.PORT || 3001;
 // -----------------------------------------------------------------
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+// add context to our server so data from the "authMiddleware()" function can passs data to our resolver functions
+  context: authMiddleware,
 })
+
 // -----------------------------------------------------------------
 server.applyMiddleware({ app });
 
@@ -27,7 +29,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-app.use(routes);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 // -----------------------------------------------------------------
 db.once('open', () => {
