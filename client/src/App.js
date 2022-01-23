@@ -36,6 +36,7 @@ function App() {
   return (
     // Conneting to ApolloProvider Client so anything below the client in the tree can use the query hook
     <ApolloProvider client={client}>
+      <Router>
       <>
         <Navbar />
         <Switch>
@@ -44,6 +45,7 @@ function App() {
           <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
         </Switch>
       </>
+      </Router>
     </ApolloProvider>
   );
 }
