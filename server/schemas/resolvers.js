@@ -46,7 +46,7 @@ const resolvers = {
     saveBook: async (parent, { input }, context) => {
       console.log('savebook resolver hit')
       if (context.user) {
-        console.log('We have context')
+        console.log('We have context (saveBook)')
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedBooks: input } },
@@ -59,7 +59,9 @@ const resolvers = {
     },
 
     removeBook: async (parent, { bookId }, context) => {
+      console.log('removebook resolver hit')
       if (context.user) {
+        console.log('We have context (removeBook)')
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $pull: { savedBooks: { bookId: bookId } } },
@@ -67,6 +69,7 @@ const resolvers = {
         );
         return updatedUser;
       }
+      console.log('removeBook Authentication Failed')
       throw new AuthenticationError("You need to be logged in!");
     },
   },
