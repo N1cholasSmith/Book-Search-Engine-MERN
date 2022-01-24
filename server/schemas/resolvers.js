@@ -15,7 +15,7 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
   },
-  
+
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -44,7 +44,9 @@ const resolvers = {
     },
 
     saveBook: async (parent, { input }, context) => {
+      console.log('savebook resolver hit')
       if (context.user) {
+        console.log('We have context')
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedBooks: input } },
@@ -52,6 +54,7 @@ const resolvers = {
         );
         return updatedUser;
       }
+      console.log('Authentication Failed')
       throw new AuthenticationError("You need to be logged in!");
     },
 
