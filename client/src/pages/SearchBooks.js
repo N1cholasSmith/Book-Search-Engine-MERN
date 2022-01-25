@@ -68,7 +68,6 @@ const SearchBooks = () => {
       return false;
     }
 
-    // TODO =============================================================
     try {
       const { data } = await saveBook({
         variables: { input: {...bookToSave}}

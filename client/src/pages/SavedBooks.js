@@ -9,11 +9,10 @@ import React, { useState, useEffect } from 'react';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
-// IMPORTING QUERIES
+// IMPORTING QUERY
 import { GET_ME } from '../utils/queries';
+// IMPORTING MUTATION
 import { REMOVE_BOOK } from '../utils/mutations';
-
-// import { QUERY_USER } from '../utils/queries';
 
 
 
@@ -42,12 +41,6 @@ const SavedBooks = () => {
         variables: { bookId } }
         );
 
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
-
-      // const updatedUser = await response.json();
-      // setUserData(updatedUser);
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
